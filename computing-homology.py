@@ -15,12 +15,6 @@ def isSmallSimpInBigSimp(small, big):
     return True
 
 
-def print_powerset(string):
-    for i in range(0, len(string) + 1):
-        for element in combinations(string, i):
-            print(''.join(element))
-
-
 def simplexDifference(small, big):
     for i in range(len(big)):
         if big[i] not in small:
