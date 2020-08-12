@@ -20,7 +20,8 @@ def scaleCol(A, i, c):
 
 
 def scaleRow(A, i, c):
-    A[i, :] = np.array(A[i, :], dtype=numpy.float64) * c * numpy.ones(A.shape[1], dtype=numpy.float64)
+    A[i, :] = np.array(A[i, :], dtype=numpy.float64) * c * \
+        numpy.ones(A.shape[1], dtype=numpy.float64)
 
 
 def colCombine(A, addTo, scaleCol, scaleAmt):
@@ -66,7 +67,7 @@ def simultaneousReduce(A, B):
                 colCombine(A, otherCol, j, scaleAmt)
                 rowCombine(B, j, otherCol, -scaleAmt)
 
-        i += 1;
+        i += 1
         j += 1
 
     return A, B
@@ -101,7 +102,7 @@ def finishRowReducing(B):
                 scaleAmt = -B[otherRow, j]
                 rowCombine(B, otherRow, i, scaleAmt)
 
-        i += 1;
+        i += 1
         j += 1
 
     return B
@@ -123,47 +124,60 @@ def bettiNumber(d_k, d_kplus1):
     finishRowReducing(B)
 
     dimKChains = A.shape[1]
-    print(dimKChains)
+    # print(dimKChains)
     kernelDim = dimKChains - numPivotCols(A)
-    print(kernelDim)
+    # print(kernelDim)
     imageDim = numPivotRows(B)
-    print(imageDim)
+    # print(imageDim)
 
     return kernelDim - imageDim
 
 
-bd0 = numpy.array([[0, 0, 0, 0, 0]])
-bd1 = numpy.array([[-1, -1, -1, -1, 0, 0, 0, 0], [1, 0, 0, 0, -1, -1, 0, 0],
-                   [0, 1, 0, 0, 1, 0, -1, -1], [0, 0, 1, 0, 0, 1, 1, 0], [0, 0, 0, 1, 0, 0, 0, 1]])
-bd2 = numpy.array([[1, 1, 0, 0], [-1, 0, 1, 0], [0, -1, -1, 0],
-                   [0, 0, 0, 0], [1, 0, 0, 1], [0, 1, 0, -1],
-                   [0, 0, 1, 1], [0, 0, 0, 0]])
+bd0 = numpy.array([[0, 0, 0, 0]])
+bd1 = numpy.array([[-1, -1, -1, 0, 0, 0], [1, 0, 0, -1, -1, 0],
+                   [0, 1, 0, 1, 0, -1], [0, 0, 1, 0, 1, 1]])
+
+bd2 = numpy.array([[1, 1, 0, 0], [-1, 0, 1, 0], [0, -1, -1, 0], [1, 0, 0, 1], [0, 1, 0, -1],
+                   [0, 0, 1, 1]])
 bd3 = numpy.array([[-1], [1], [-1], [1]])
 
-print("Example complex from post")
+print("3-simplex")
 print(f"0th homology: {bettiNumber(bd0, bd1)}")
 print(f"1st homology: {bettiNumber(bd1, bd2)}")
 print(f"2nd homology: {bettiNumber(bd2, bd3)}")
 
-mobiusD1 = numpy.array([
-    [-1, -1, -1, -1, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, -1, -1, -1, 0, 0, 0],
-    [0, 1, 0, 0, 1, 0, 0, -1, -1, 0],
-    [0, 0, 0, 1, 0, 0, 1, 0, 1, 1],
-])
+bd0_1 = numpy.array([[0, 0, 0, 0]])
+bd1_1 = numpy.array([[-1, -1, -1, 0, 0, 0], [1, 0, 0, -1, -1, 0],
+                     [0, 1, 0, 1, 0, -1], [0, 0, 1, 0, 1, 1]])
 
-mobiusD2 = numpy.array([
-    [1, 0, 0, 0, 1],
-    [0, 0, 0, 1, 0],
-    [-1, 0, 0, 0, 0],
-    [0, 0, 0, -1, -1],
-    [0, 1, 0, 0, 0],
-    [1, -1, 0, 0, 0],
-    [0, 0, 0, 0, 1],
-    [0, 1, 1, 0, 0],
-    [0, 0, -1, 1, 0],
-    [0, 0, 1, 0, 0],
-])
+bd2_1 = numpy.array([[1, 1, 0, 0], [-1, 0, 1, 0], [0, -1, -1, 0], [1, 0, 0, 1], [0, 1, 0, -1],
+                     [0, 0, 1, 1]])
+bd3_1 = numpy.array([[0], [0], [0], [0]])
 
-print("Mobius Band")
-print(f"1st homology: {bettiNumber(mobiusD1, mobiusD2)}")
+print("boundary 2-sphere")
+print(f"0th homology: {bettiNumber(bd0_1, bd1_1)}")
+print(f"1st homology: {bettiNumber(bd1_1, bd2_1)}")
+print(f"2nd homology: {bettiNumber(bd2_1, bd3_1)}")
+
+bd0_2 = numpy.array([[0, 0, 0, 0]])
+bd1_2 = numpy.array([[-1, -1, -1, 1, 0, 0, 1, 0, 0, 1, 0, 0], [1, 0, 0, -1, -1, -1, 0, 1, 0, 0, 1, 0],
+                     [0, 1, 0, 0, 1, 0, -1, -1, -1, 0, 0, 1], [0, 0, 1, 0, 0, 1, 0, 0, 1, -1, -1, -1]])
+
+bd2_2 = numpy.array([[1, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0, 0, 1],
+                     [0, 0, 0, 0, -1, -1, 0, 0],
+                     [0, 0, 1, 0, 0, 0, 0, 1],
+                     [0, 0, 0, 0, 0, 0, -1, -1],
+                     [0, 0, 0, 0, 0, 1, 1, 0],
+                     [1, 0, 0, 1, 0, 0, 0, 0],
+                     [-1, -1, 0, 0, 0, 0, 0, 0],
+                     [0, 1, 0, 0, 1, 0, 0, 0],
+                     [0, 0, -1, -1, 0, 0, 0, 0],
+                     [0, 1, 1, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 1, 0, 0, 1, 0]
+                     ])
+bd3_2 = numpy.array([[0], [0], [0], [0], [0], [0], [0], [0]])
+
+print("torus")
+print(f"0th homology: {bettiNumber(bd0_2, bd1_2)}")
+print(f"1st homology: {bettiNumber(bd1_2, bd2_2)}")
+print(f"2nd homology: {bettiNumber(bd2_2, bd3_2)}")
