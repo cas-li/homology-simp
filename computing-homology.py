@@ -150,12 +150,13 @@ def bettiNumber(d_k, d_kplus1):
 
     return kernelDim - imageDim
 
-# ask: input biggest simps (without vertex set)
 
-
-big_simps = ["01234"]
+big_simps = []
 temp_decompose = []
 decomposed_simps = []
+
+# ask: input biggest simps (without vertex set)
+big_simps = [item for item in input("Enter the big simplices: ").split()]
 
 # getting the smaller simps from big simps
 for i in big_simps:
